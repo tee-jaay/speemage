@@ -26,7 +26,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
         backgroundColor: bgColor,
         elevation: 0.0,
         title: const Text(
-          'SpeeText',
+          'SpeeMage',
           style: TextStyle(
             fontWeight: FontWeight.w600,
             color: textColor,
