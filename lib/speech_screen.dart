@@ -1,3 +1,4 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 
 import 'package:spetext/colors.dart';
@@ -10,20 +11,21 @@ class SpeechScreen extends StatefulWidget {
 }
 
 class _SpeechScreenState extends State<SpeechScreen> {
-  var text = "Hold the button and start speaking";
+  String text = "Press & hold the button, start speaking";
+  bool isListening = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(
+        leading: const Icon(
           Icons.sort_rounded,
           color: Colors.white,
         ),
         centerTitle: true,
         backgroundColor: bgColor,
         elevation: 0.0,
-        title: Text(
+        title: const Text(
           'SpeeText',
           style: TextStyle(
             fontWeight: FontWeight.w600,
@@ -34,24 +36,40 @@ class _SpeechScreenState extends State<SpeechScreen> {
       body: Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        margin: EdgeInsets.only(bottom: 150),
+        margin: const EdgeInsets.only(bottom: 144),
         child: Text(
           text,
           textAlign: TextAlign.center,
           softWrap: true,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 24,
             color: Colors.black,
             fontWeight: FontWeight.w600,
           ),
         ),
       ),
-      floatingActionButton: CircleAvatar(
-        backgroundColor: bgColor,
-        radius: 32,
-        child: Icon(
-          Icons.mic,
-          color: Colors.white,
+      floatingActionButton: AvatarGlow(
+        endRadius: 72.0,
+        animate: isListening,
+        duration: const Duration(milliseconds: 2000),
+        glowColor: bgColor,
+        repeat: true,
+        repeatPauseDuration: const Duration(milliseconds: 100),
+        child: GestureDetector(
+          onTapDown: (details) => setState(() {
+            isListening = true;
+          }),
+          onTapUp: (details) => setState(() {
+            isListening = false;
+          }),
+          child: CircleAvatar(
+            backgroundColor: bgColor,
+            radius: 32,
+            child: Icon(
+              isListening ? Icons.mic : Icons.mic_none,
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
